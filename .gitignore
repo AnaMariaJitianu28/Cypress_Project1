@@ -1,6 +1,14 @@
 # Node modules
 node_modules/
 
+# Cypress example tests
+cypress/e2e/1-getting-started/
+cypress/e2e/2-advanced-examples/
+
+# Practice/login tests
+login.cy.js
+cypress/pages/loginPage.js
+
 # Cypress output
 cypress/videos/
 cypress/screenshots/
