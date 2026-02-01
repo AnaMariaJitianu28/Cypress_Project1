@@ -154,6 +154,11 @@ describe("AirportLabs Home Page", () => {
 });
 
 // ...Scenario 5...
+// In this test. we check the "Get in Touch" button functionality.:
+
+// Checks the button is visible and enabled.
+// Clicks it and verifies navigation.
+// Optionally checks for a heading on the contact page.
 
 describe("AirportLabs Home Page", () => {
   const homePage = new HomePage();
