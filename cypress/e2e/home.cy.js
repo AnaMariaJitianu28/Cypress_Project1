@@ -19,7 +19,6 @@ describe("AirportLabs Home Page", () => {
         const fontWeight = $el.css("font-weight");
         const isVisible = $el.is(":visible");
         // Log to browser console
-        // eslint-disable-next-line no-console
         console.log("Desktop - Font size:", fontSize);
         console.log("Desktop - Font weight:", fontWeight);
         console.log("Desktop - Is visible:", isVisible);
@@ -38,7 +37,6 @@ describe("AirportLabs Home Page", () => {
         const fontSize = $el.css("font-size");
         const fontWeight = $el.css("font-weight");
         const isVisible = $el.is(":visible");
-        // eslint-disable-next-line no-console
         console.log("Mobile - Font size:", fontSize);
         console.log("Mobile - Font weight:", fontWeight);
         console.log("Mobile - Is visible:", isVisible);
@@ -58,7 +56,7 @@ describe("AirportLabs Home Page", () => {
     // Set a larger viewport to reduce overlap issues
     cy.viewport(1280, 1000);
 
-    // Optionally hide the nav menu if it still covers content
+    // Hide the nav menu if it still covers content
     cy.get(".nav-menu-2").invoke("hide");
     cy.get(".navbar-row-2").invoke("hide");
 
@@ -80,7 +78,6 @@ describe("AirportLabs Home Page", () => {
               .and("have.text", stat.value)
               .then(($value) => {
                 const color = $value.css("color");
-                // eslint-disable-next-line no-console
                 console.log(`Statistic "${stat.label}" value color:`, color);
                 expect(color).to.exist;
               });
@@ -93,7 +90,6 @@ describe("AirportLabs Home Page", () => {
 // ...Scenario 3...
 describe("AirportLabs Home Page", () => {
   const homePage = new HomePage();
-  // Custom Cypress command example: see cypress/support/commands.js for cy.login
   it("Scenario 3 | Social media links: verify visibility, href correctness, and opened URL domain", () => {
     homePage.visit();
     Cypress.on("uncaught:exception", (err, runnable) => {
@@ -101,7 +97,7 @@ describe("AirportLabs Home Page", () => {
       // failing the test due to uncaught exceptions from external sites
       return false;
     });
-    // Example: update these selectors and hrefs to match the actual site
+    // Update these selectors and hrefs to match the actual site
     const socialLinks = [
       { selector: 'a[href*="linkedin.com"]', domain: "linkedin.com" },
       { selector: 'a[href*="facebook.com"]', domain: "facebook.com" },
@@ -139,7 +135,6 @@ describe("AirportLabs Home Page", () => {
       .and(($img) => {
         expect($img[0].naturalWidth).to.be.greaterThan(0);
         expect($img[0].naturalHeight).to.be.greaterThan(0);
-        // eslint-disable-next-line no-console
         console.log(
           "Logo width:",
           $img[0].naturalWidth,
@@ -158,7 +153,7 @@ describe("AirportLabs Home Page", () => {
 
 // Checks the button is visible and enabled.
 // Clicks it and verifies navigation.
-// Optionally checks for a heading on the contact page.
+// Checks for a heading on the contact page.
 
 describe("AirportLabs Home Page", () => {
   const homePage = new HomePage();
@@ -176,7 +171,7 @@ describe("AirportLabs Home Page", () => {
     // Assert the URL includes the contact page path
     cy.url().should("include", "/other/get-in-touch");
 
-    // Optionally, check for a contact form or heading on the new page
+    // Check for a contact form or heading on the new page
     cy.contains("Get in Touch").should("be.visible");
   });
 });

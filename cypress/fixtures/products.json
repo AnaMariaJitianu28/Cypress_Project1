@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Samsung TV",
+    "searchTerm": "televizor",
+    "brand": "Samsung",
+    "minRating": 3
+  },
+  {
+    "name": "Samsung Accessory",
+    "searchTerm": "accesorii televizor",
+    "brand": "Samsung",
+    "minRating": 3
+  }
+]

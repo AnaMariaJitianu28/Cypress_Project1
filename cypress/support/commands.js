@@ -23,3 +23,20 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+// ...existing code...
+
+Cypress.Commands.add("acceptCookies", () => {
+  cy.get("body").then(($body) => {
+    if ($body.find("button#accept-cookie-policy").length) {
+      cy.get("button#accept-cookie-policy").click();
+    }
+  });
+});
+
+Cypress.Commands.add("searchProduct", (searchTerm) => {
+  cy.get('input[type="search"]')
+    .should("be.visible")
+    .clear()
+    .type(`${searchTerm}{enter}`);
+});

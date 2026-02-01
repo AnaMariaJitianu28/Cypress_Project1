@@ -1,32 +1,22 @@
-// describe("eMAG Shopping Scenario", () => {
-//   it("Step 2: Search for TVs", () => {
-//     cy.visit("https://www.emag.ro/");
-//     // Accept cookies if the popup appears
-//     cy.get("body").then(($body) => {
-//       if ($body.find("button#accept-cookie-policy").length) {
-//         cy.get("button#accept-cookie-policy").click();
-//       }
-//     });
-//     // Wait for the search input to be visible
-//     cy.get('input[type="search"]').should("be.visible").as("searchInput");
-//     // Type "televizor" and press Enter
-//     cy.get("@searchInput").type("televizor{enter}");
-//     // Assert that results are loaded
-//     cy.contains("Televizor", { timeout: 10000 }).should("exist");
-//   });
-// });
+describe("eMAG Shopping Scenario", () => {
+  it("Step 1: Search for TVs", () => {
+    cy.visit("https://www.emag.ro/");
+    // Accept cookies if the popup appears
+    cy.acceptCookies();
+    // Wait for the search input to be visible
+    // Type "televizor" and press Enter
+    cy.searchProduct("televizor");
+    // Assert that results are loaded
+    cy.contains("Televizor", { timeout: 10000 }).should("exist");
+  });
+});
 
 describe("eMAG Shopping Scenario", () => {
   it("Steps 2-4: Search for TVs, sort, filter, add to cart, then add Samsung accessory", () => {
     cy.visit("https://www.emag.ro/");
     // Accept cookies if the popup appears
-    cy.get("body").then(($body) => {
-      if ($body.find("button#accept-cookie-policy").length) {
-        cy.get("button#accept-cookie-policy").click();
-      }
-    });
-    cy.get('input[type="search"]').should("be.visible").as("searchInput");
-    cy.get("@searchInput").type("televizor{enter}");
+    cy.acceptCookies();
+    cy.searchProduct("televizor");
     cy.contains("Televizor", { timeout: 10000 }).should("exist");
 
     // Ensure the sort dropdown button is visible and click it
@@ -74,16 +64,16 @@ describe("eMAG Shopping Scenario", () => {
           .first()
           .invoke("text")
           .as("tvPrice");
-        // Optionally, click to go to the product page
+        // Click to go to the product page
         cy.get("a").first().invoke("removeAttr", "target").click();
       });
 
-    // After clicking the first TV, extract name and price from the product page
+    // Extract name and price from the product page
     cy.get('h1.page-title[data-test="page-title"]')
       .invoke("text")
       .then((tvName) => {
         cy.log("Selected TV name: " + tvName.trim());
-        // Save for later use if needed
+        // Save for later use
         cy.wrap(tvName.trim()).as("tvName");
       });
 
@@ -104,12 +94,8 @@ describe("eMAG Shopping Scenario", () => {
       .first()
       .click();
     cy.wait(2000); // Wait for the cart page to load
-    // Search for Samsung accessories (e.g., "accesorii televizor Samsung")
-    cy.get('input[type="search"]').should("be.visible").as("searchInput");
-    cy.get("@searchInput").type("accesorii televizor Samsung{enter}");
-
-    // Assert that results are loaded
-    // cy.contains("Accesoriu", { timeout: 10000 }).should("exist");
+    // Search for Samsung accessories
+    cy.searchProduct("accesorii televizor Samsung");
 
     // Sort by lowest price
     cy.get(".sort-control-btn-dropdown .sort-control-btn")
@@ -174,72 +160,7 @@ describe("eMAG Shopping Scenario", () => {
       .first()
       .click();
 
-    cy.wait(2000); // Wait for the cart page to load
-
-    // // --- Cart verification ---
-    // // Get all product prices from the cart
-    // cy.get("p.product-new-price").then(($prices) => {
-    //   // Extract numeric price for each product
-    //   const productPrices = [];
-    //   $prices.each((i, el) => {
-    //     const priceText = el.childNodes[0].nodeValue;
-    //     const decimalText =
-    //       el.querySelector("small.mf-decimal")?.textContent || "00";
-    //     const fullPrice = `${priceText.replace(/\./g, "")}.${decimalText}`;
-    //     productPrices.push(parseFloat(fullPrice));
-    //   });
-
-    //   // Get the final price from the summary
-    //   cy.get('div[data-test="summaryTotal"]').then(($total) => {
-    //     const totalText = $total[0].childNodes[0].nodeValue; // e.g. "36.221"
-    //     const totalDecimal = $total.find("small.mf-decimal").text() || "00"; // e.g. "35"
-    //     const totalPrice = parseFloat(
-    //       `${totalText.replace(/\./g, "")}.${totalDecimal}`,
-    //     );
-
-    //     // Calculate expected sum
-    //     const expectedSum = productPrices.reduce((a, b) => a + b, 0);
-
-    //     // Assert that the total price matches the sum of product prices
-    //     expect(totalPrice).to.be.closeTo(expectedSum, 0.01);
-
-    //     // Optionally, log the values
-    //     cy.log(`Product prices: ${productPrices.join(" + ")} = ${expectedSum}`);
-    //     cy.log(`Cart total: ${totalPrice}`);
-    //   });
-    // });
-
-    // // --- Cart verification ---
-    // cy.get("p.product-new-price").then(($prices) => {
-    //   const productPrices = [];
-    //   $prices.each((i, el) => {
-    //     let priceText = el.childNodes[0].nodeValue.trim(); // e.g. "49.652"
-    //     priceText = priceText.replace(/\./g, ""); // Remove thousands separator
-    //     const decimalText =
-    //       el.querySelector("small.mf-decimal")?.textContent.trim() || "00";
-    //     // Combine and parse as float
-    //     const fullPrice = parseFloat(`${priceText}.${decimalText}`);
-    //     productPrices.push(fullPrice);
-    //   });
-
-    //   // Get the final price from the summary
-    //   cy.get('div[data-test="summaryTotal"]').then(($total) => {
-    //     let totalText = $total[0].childNodes[0].nodeValue.trim(); // e.g. "99.304"
-    //     totalText = totalText.replace(/\./g, "");
-    //     const totalDecimal =
-    //       $total.find("small.mf-decimal").text().trim() || "00";
-    //     const totalPrice = parseFloat(`${totalText}.${totalDecimal}`);
-
-    //     // Calculate expected sum
-    //     const expectedSum = productPrices.reduce((a, b) => a + b, 0);
-
-    //     // Assert that the total price matches the sum of product prices
-    //     expect(totalPrice).to.be.closeTo(expectedSum, 0.01);
-
-    //     cy.log(`Product prices: ${productPrices.join(" + ")} = ${expectedSum}`);
-    //     cy.log(`Cart total: ${totalPrice}`);
-    //   });
-    // });
+    cy.wait(2000);
 
     // --- Cart verification ---
     // Get product prices from visible line items only
@@ -279,11 +200,11 @@ describe("eMAG Shopping Scenario", () => {
         productPrices.push(fullPrice);
       });
 
-      cy.log(`\n=== All product prices: [${productPrices.join(", ")}] ===`);
+      cy.log(`\nAll product prices: [${productPrices.join(", ")}]`);
 
       // Get the final price from the summary
       cy.get('div[data-test="summaryTotal"]').then(($total) => {
-        cy.log(`\n--- Processing Total ---`);
+        cy.log(`\nProcessing Total`);
 
         // Get the integer part (text node before the <sup>)
         let totalText = $total[0].childNodes[0].nodeValue.trim();
@@ -310,17 +231,33 @@ describe("eMAG Shopping Scenario", () => {
 
         // Calculate expected sum
         const expectedSum = productPrices.reduce((a, b) => a + b, 0);
-        cy.log(
-          `\n=== Expected sum: ${productPrices.join(" + ")} = ${expectedSum} ===`,
-        );
-        cy.log(`=== Cart total: ${totalPrice} ===\n`);
+        cy.log(`\nExpected sum: ${productPrices.join(" + ")} = ${expectedSum}`);
+        cy.log(`Cart total: ${totalPrice}\n`);
 
         // Assert that the total price matches the sum of product prices
         expect(totalPrice).to.be.closeTo(expectedSum, 0.01);
 
         cy.log(
-          `✓ Verification PASSED: Sum (${expectedSum}) matches total (${totalPrice})`,
+          `Verification PASSED: Sum (${expectedSum}) matches total (${totalPrice})`,
         );
+      });
+    });
+  });
+});
+
+describe("eMAG Data-driven Search", () => {
+  it("Searches for products from fixtures (products.json)", () => {
+    cy.fixture("products").then((products) => {
+      products.forEach((product) => {
+        cy.visit("https://www.emag.ro/");
+        cy.acceptCookies();
+
+        cy.searchProduct(product.searchTerm);
+
+        // Basic assertion that results page loads
+        cy.contains(product.searchTerm.split(" ")[0], {
+          timeout: 10000,
+        }).should("exist");
       });
     });
   });
