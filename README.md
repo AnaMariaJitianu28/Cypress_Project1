@@ -69,9 +69,3 @@ README.md             # Project documentation
 3. Social media links: verify visibility, href, and opened URL domain
 4. Logo: verify visible logo, dimensions > 0, negative assertion
 5. "Get in Touch" button: visible, enabled, navigates to contact page
-
-
-
----
-
-Feel free to copy, edit, and add this as your `README.md`. Let me know if you want to include screenshots, badges, or more details!
