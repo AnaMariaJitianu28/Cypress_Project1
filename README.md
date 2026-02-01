@@ -35,17 +35,12 @@ Cypress ^15.9.0 (see package.json)
 
 ## Project Structure
 
-cypress/
-├── e2e/ # Test files
-│ ├── emag.cy.js # Main shopping scenario (search, filter, add to cart)
-│ ├── home.cy.js # Additional home page tests
-├── pages/ # Page Object Models
-│ ├── emagPage.js # eMAG page interactions
-│ ├── homePage.js # Home page interactions
-├── fixtures/ # Test data
-│ ├── products.json # Data-driven test products
-│ ├── statistics.json # Home page statistics
-├── support/
-│ ├── commands.js # Custom Cypress commands
-│ └── e2e.js # Global test setup
-└── cypress.config.js # Cypress configuration
+cypress/  
+ e2e/ # Test files (emag.cy.js, home.cy.js)  
+ fixtures/ # Test data (statistics.json, products.json)  
+ pages/ # Page Object Models (emagPage.js, homePage.js)  
+ support/ # Custom commands (commands.js)  
+cypress.config.js # Cypress configuration  
+package.json # Project dependencies and scripts  
+.gitignore # Files/folders ignored by git  
+README.md # Project documentation
